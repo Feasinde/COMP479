@@ -18,8 +18,9 @@ QUERY = ""
 
 while QUERY != ":q":
 	QUERY = input("Input query: ")
+	print("\nYour query was '",QUERY,"':\n")
 
-	## default querying is taken to be AND
+	## default querying is taken to be and
 	if not "OR" in QUERY:
 		split_query = QUERY.split()
 	else:
