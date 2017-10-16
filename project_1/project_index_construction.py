@@ -45,7 +45,8 @@ def SPIMI_Invert(block_size_B):
 			file_block.write(str(tup)+"\n")
 		file_block_n+=1
 	return True
-
+## Function that merges two blocks and produces a file containing 
+## their index information 
 def mergeBlocks(file_handle1, file_handle2, index_file_name):
 	file_name = str(index_file_name)
 	index = open(file_name,"w")
@@ -85,7 +86,6 @@ def mergeBlocks(file_handle1, file_handle2, index_file_name):
 			for i in range(1000):
 				term = file_handle1.readline()
 				if term != "": 
-					if makeTuple(term)[0] == 'zulia': print("FOUND", makeTuple(term))
 					buffer1.append(makeTuple(term))
 		if buffer1 == []: 
 			print("buffer1 is empty")
@@ -94,7 +94,6 @@ def mergeBlocks(file_handle1, file_handle2, index_file_name):
 			for i in range(1000):
 				term = file_handle2.readline()
 				if term != "": 
-					if makeTuple(term)[0] == 'zulia': print("FOUND", makeTuple(term))
 					buffer2.append(makeTuple(term))
 		if buffer2 == []: 
 			print("buffer2 is empty")
