@@ -13,10 +13,14 @@ stemmer = PorterStemmer()
 
 ## OR flag to determine whether query contains
 ## a disjunction
-isOR = False
 QUERY = ""
 
 while QUERY != ":q":
+	intersect = []
+	isOR = False
+	## list of postings of each query term
+	query_postings = []
+
 	QUERY = input("Input query: ")
 	print("\nYour query was '",QUERY,"':\n")
 
@@ -33,14 +37,10 @@ while QUERY != ":q":
 	for i in range(len(split_query)):
 		split_query[i] = stemmer.stem(split_query[i])
 
-	## list of postings of each query term
-	query_postings = []
-
 	## get postings form dictionary
 	for term in split_query:
 		if term in dictionary:
 			query_postings.append(dictionary[term])
-	intersect = []
 
 	## AND queries
 	if not isOR:
