@@ -3,7 +3,7 @@ from ast import literal_eval as makeTuple
 
 ## Load dictionary into memory
 dictionary = {}
-print("Loading dictionary…")
+print("Loading index…")
 with open("dictionary", "r") as dict_file:
 	for line in dict_file:
 		term = makeTuple(line)
