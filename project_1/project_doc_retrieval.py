@@ -3,6 +3,7 @@ from ast import literal_eval as makeTuple
 
 ## Load dictionary into memory
 dictionary = {}
+print("Loading dictionary…")
 with open("dictionary", "r") as dict_file:
 	for line in dict_file:
 		term = makeTuple(line)
@@ -15,14 +16,14 @@ stemmer = PorterStemmer()
 ## a disjunction
 QUERY = ""
 
-while QUERY != ":q":
+while True:
 	intersect = []
 	isOR = False
 	## list of postings of each query term
 	query_postings = []
-
+	print("Enter ':q' to quit")
 	QUERY = input("Input query: ")
-	print("\nYour query was '",QUERY,"':\n")
+	if QUERY == ":q": break
 
 	## default querying is taken to be and
 	if not "OR" in QUERY:
@@ -60,8 +61,10 @@ while QUERY != ":q":
 		for term in split_query:
 			if term in dictionary:
 				query_postings.append(dictionary[term])
-		for posting in query_postings:
-			intersect = intersect + posting
-		intersect = set(intersect)
+		if query_postings != []:
+			for posting in query_postings:
+				intersect = intersect + posting
+			intersect = set(intersect)
+		else: print("Query not found.")
 
-	print(intersect, "\n\nNumber of hits:", len(intersect))
+	print("\n",intersect, "\n\nNumber of hits:", len(intersect))
