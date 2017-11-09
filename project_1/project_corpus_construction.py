@@ -5,6 +5,7 @@ PATH_TO_CORPUS = "/home/feasinde/Escritorio/corpus/"
 PATH_TO_CORPUS_FILE = "/home/feasinde/Escritorio/corpus_file.txt"
 
 list_of_files = []
+stemmer = nltk.PorterStemmer()
 
 corpus_construction_file = open(PATH_TO_CORPUS_FILE, 'a')
 
@@ -25,6 +26,6 @@ for file in list_of_files:
 			tokens = nltk.word_tokenize(doc_text)
 			for token in tokens:
 				if not re.match(r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\xff]',token):
-					tokens_no_hes.append(token)
+					tokens_no_hes.append(stemmer.stem(token.lower))
 			corpus_construction_file.write("("+str(doc_ID)+","+str(tokens_no_hes)+")\n")
 corpus_construction_file.close()

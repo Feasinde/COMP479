@@ -1,5 +1,6 @@
 from nltk import PorterStemmer
 from ast import literal_eval as makeTuple
+import math
 
 ## Load dictionary into memory
 dictionary = {}
@@ -8,6 +9,16 @@ with open("dictionary", "r") as dict_file:
 	for line in dict_file:
 		term = makeTuple(line)
 		dictionary[term[0]] = term[1]
+
+## Load preprocessed corupus
+corpus = {}
+print("Loading preprocessed corpus")
+with open("corpus", "r") as corpus_file:
+	for line in corpus_file:
+		doc = makeTuple(line)
+		corpus[doc[0]] = doc[1]
+
+
 
 ## Load stemmer
 stemmer = PorterStemmer()
@@ -56,6 +67,13 @@ while True:
 		elif len(query_postings) == 1:
 			intersect = set(query_postings[0])
 		else: print("Query not found.")
+
+		## Begin ranking phase
+		inverse_doc_freq_list = []
+		for query_term in split_query:
+			d = len(dictionary[query_term])
+			inverse_doc_freq_list.append(math.log10(len(corpus)/d))
+			
 	## OR queries	
 	else:
 		for term in split_query:
