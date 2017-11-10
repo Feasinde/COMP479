@@ -77,21 +77,35 @@ while True:
 		## Begin ranking phase
 		k = 1.2
 		b = 0.75
+		## list that holds the idf of all
+		## query terms
 		inverse_doc_freq_list = []
+		
 		doc_ranks = {}
+
+		## compute idf of all query terms
 		for query_term in split_query:
 			if query_term in dictionary:
 				d = len(dictionary[query_term])
 			inverse_doc_freq_list.append(math.log10(len(corpus)/d))
-		n = 0
+		
+		## compute RSV for each query-doc pair
 		for doc in corpus:
 			Ld = len(corpus[doc])
+			## accumulate RSV values for each
+			## term in query
 			rank = 0
 			for n in range(len(split_query)):
+				## variables used are term_freq, inverse_doc_freq
+				## parameters used are k, b, Ld, and L_av
+
 				term_freq = corpus[doc].count(split_query[n])
 				inverse_doc_freq = inverse_doc_freq_list[n]
 				rank += inverse_doc_freq*(k+1)*term_freq/(k*((1-b)*b*Ld/L_av)+term_freq)
+
 			doc_ranks[doc] = rank
+		## sort RSV values and print top 10
+		## docIDs 
 		ranked_docs = sorted(doc_ranks.items(), key=operator.itemgetter(1), reverse=True)
 		while i < 10 and i < len(ranked_docs):
 			print(ranked_docs[i])
